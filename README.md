@@ -18,7 +18,7 @@ A Python application that analyzes stock sentiment from Reddit's r/stocks subred
 ## Installation
 
 1. Clone the repository
-2. Install required packages:
+2. Install required packages (see comments in requirements.txt for additional imports):
 ```bash
 pip install -r requirements.txt
 ```
