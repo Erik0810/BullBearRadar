@@ -21,7 +21,7 @@ class RedditScraper:
         )
         self.subreddit = self.reddit.subreddit('stocks')
 
-    def get_top_daily_posts(self, limit: int = 10) -> List[Dict]:
+    def get_top_daily_posts(self, limit: int = 50) -> List[Dict]:
         """
         Fetch top daily posts from r/stocks.
         
