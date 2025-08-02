@@ -3,12 +3,12 @@ from datetime import datetime
 import logging
 import pandas as pd
 from dotenv import load_dotenv
-from typing import List, Tuple
+from typing import List, Tuple, Callable, Optional
 import csv
 
-from reddit_scraper import RedditScraper
-from ticker_utils import TickerExtractor
-from sentiment_analyzer import SentimentAnalyzer
+from .reddit_scraper import RedditScraper
+from .ticker_utils import TickerExtractor
+from .sentiment_analyzer import SentimentAnalyzer
 
 # Set up logging
 logging.basicConfig(
@@ -60,7 +60,7 @@ def save_results(bullish: List[str], bearish: List[str]):
     except Exception as e:
         logger.error(f"Error saving results: {str(e)}")
 
-def main():
+def main(progress_callback: Optional[Callable[[str], None]] = None) -> Tuple[List[str], List[str]]:
     """Main function to orchestrate the Reddit sentiment analysis workflow."""
     try:
         # Load environment variables
@@ -76,19 +76,38 @@ def main():
         ticker_extractor = TickerExtractor()
         sentiment_analyzer = SentimentAnalyzer()
         
-        # Fetch Reddit posts
+        # Update progress and fetch Reddit posts
+        if progress_callback:
+            progress_callback({"step": "fetching_posts", "message": "Fetching posts from r/stocks...", "progress": 5})
         logger.info("Fetching posts from r/stocks...")
         posts = reddit_scraper.get_top_daily_posts()
         
         if not posts:
             logger.error("No posts fetched from Reddit")
-            return
+            return [], []
+            
+        total_posts = len(posts)
+        if progress_callback:
+            progress_callback({
+                "step": "processing_posts",
+                "message": "Found {} posts to analyze".format(total_posts),
+                "progress": 10
+            })
         
         # Process each post
         all_tickers = set()
         combined_text = ""
         
-        for post in posts:
+        for idx, post in enumerate(posts, 1):
+            # Update progress for post processing
+            if progress_callback:
+                post_progress = 10 + (40 * (idx / total_posts))  # Progress from 10% to 50%
+                progress_callback({
+                    "step": "processing_posts",
+                    "message": "Processing post {} of {}".format(idx, total_posts),
+                    "progress": post_progress
+                })
+                
             # Combine title and body for analysis
             post_text = f"{post['title']} {post['body']}"
             combined_text += f" {post_text}"
@@ -99,19 +118,39 @@ def main():
         
         if not all_tickers:
             logger.error("No valid tickers found in posts")
-            return
+            return [], []
         
-        # Analyze sentiment for all tickers
-        logger.info(f"Analyzing sentiment for {len(all_tickers)} tickers...")
+        # Update progress and analyze sentiment
+        if progress_callback:
+            progress_callback({
+                "step": "processing_tickers",
+                "message": "Processing {} found tickers...".format(len(all_tickers)),
+                "progress": 60
+            })
+        logger.info("Analyzing sentiment for {} tickers...".format(len(all_tickers)))
         ticker_sentiments = sentiment_analyzer.analyze_ticker_sentiment(
             combined_text, 
             list(all_tickers)
         )
         
+        # Update progress for sentiment analysis
+        if progress_callback:
+            progress_callback({
+                "step": "analyzing_sentiment",
+                "message": "Analyzing sentiment...",
+                "progress": 80
+            })
+            
         # Get top bullish and bearish tickers
         bullish, bearish = sentiment_analyzer.get_top_sentiments(ticker_sentiments)
         
-        # Save results
+        # Update progress and save results
+        if progress_callback:
+            progress_callback({
+                "step": "saving_results",
+                "message": "Saving results...",
+                "progress": 95
+            })
         logger.info("Saving results...")
         save_results(bullish, bearish)
         
@@ -119,8 +158,17 @@ def main():
         logger.info(f"Top Bullish: {', '.join(bullish)}")
         logger.info(f"Top Bearish: {', '.join(bearish)}")
         
+        return bullish, bearish
+        
     except Exception as e:
         logger.error(f"Error in main workflow: {str(e)}")
+        raise
 
 if __name__ == "__main__":
-    main()
+    try:
+        bullish, bearish = main()
+        print(f"\nTop Bullish: {', '.join(bullish)}")
+        print(f"Top Bearish: {', '.join(bearish)}")
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        sys.exit(1)
