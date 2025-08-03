@@ -34,7 +34,7 @@ def build_executable():
 
 def copy_additional_files():
     """Copy additional required files to the dist directory"""
-    dist_dir = Path('dist/StockSentiment')
+    dist_dir = Path('dist/BullBearRadar')
     
     # Create scripts directory in dist
     scripts_dir = dist_dir / 'scripts'

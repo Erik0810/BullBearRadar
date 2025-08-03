@@ -1,69 +1,32 @@
 # Stock Sentiment Analyzer
 
-A Python application that analyzes stock sentiment from Reddit's r/stocks subreddit by scraping daily top posts, extracting stock tickers, and performing sentiment analysis to identify the most bullish and bearish mentioned stocks.
+BullBearRadar is a desktop application that automatically scrapes Reddit's r/stocks for trending discussions, analyzes stock mentions at the sentence level for sentiment, and highlights the most bullish and bearish tickers each day. The setup wizard makes installation simple, so anyone can explore daily market sentiment without coding.
 
 ## Features
 
-- Scrapes top daily posts from r/stocks subreddit
+- Easy installation via Setup Wizard (no command line required)
+- Web scrapes top daily posts from Reddit's r/stocks subreddit
 - Extracts and validates stock tickers using Yahoo Finance
-- Performs sentiment analysis using VADER
-- Tracks top bullish and bearish stocks in a CSV log
+- Performs sentence-based sentiment analysis using VADER to determine positive and negative sentiment
+- Fetches real-time and historic stock data for mentioned tickers
 - Filters out common English words that might look like tickers
 
-## Prerequisites
+## For End Users
 
-- Python 3.6+
-- Reddit API credentials (Client ID, Client Secret, and User Agent)
+1. Download `BullBearRadar.exe`
+2. Run the installer (requires administrator privileges)
+3. Follow the installation wizard
+4. Enter your Reddit API credentials when prompted
+   - You can get these from https://www.reddit.com/prefs/apps
+5. Launch the application from the desktop shortcut or Start Menu
 
-## Installation
+## Troubleshooting
 
-1. Clone the repository
-2. Install required packages (see comments in requirements.txt for additional imports):
-```bash
-pip install -r requirements.txt
-```
-3. Copy `.env.template` to `.env` and fill in your Reddit API credentials:
-```bash
-cp .env.template .env
-```
-
-## Configuration
-
-Update the `.env` file with your Reddit API credentials:
-```
-REDDIT_CLIENT_ID=your_client_id
-REDDIT_CLIENT_SECRET=your_client_secret
-REDDIT_USER_AGENT=your_user_agent
-```
-
-## Usage
-
-Run the main script to analyze current stock sentiment:
-```bash
-python main.py
-```
-
-The script will:
-1. Fetch top daily posts from r/stocks
-2. Extract valid stock tickers
-3. Analyze sentiment for each ticker
-4. Save results to `sentiment_log.csv`
-
-## Output
-
-Results are saved to `sentiment_log.csv` with the following columns:
-- Date: Analysis date
-- Top 3 Bullish: Most positively mentioned tickers
-- Top 3 Bearish: Most negatively mentioned tickers
-
-## Dependencies
-
-- praw: Reddit API wrapper
-- yfinance: Yahoo Finance API
-- vaderSentiment: Sentiment analysis
-- pandas: Data manipulation
-- nltk: Natural language processing
-- python-dotenv: Environment variable management
+If you encounter issues during installation:
+1. Ensure you have administrator privileges
+2. Check your internet connection
+3. Temporarily disable antivirus software
+4. Run the installer with `/LOG="install.log"` for detailed logs
 
 ## License
 

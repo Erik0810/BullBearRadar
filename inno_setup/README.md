@@ -1,10 +1,10 @@
-# Stock Sentiment Analyzer Installer
+# BullBearRadar Installer
 
 This directory contains the necessary files to create a Windows installer for the Stock Sentiment Analyzer application.
 
-## Installation Package Features
+## For Developers
 
-The generated installer (`StockSentimentSetup.exe`) is a standalone package that can be shared and run on any Windows computer. It includes:
+The generated installer (`BullBearRadar.exe`) is a standalone package that can be shared and run on any Windows computer. It includes:
 
 - Automatic Python installation if not present
 - Installation of all required Python packages
@@ -12,23 +12,12 @@ The generated installer (`StockSentimentSetup.exe`) is a standalone package that
 - Environment configuration setup
 - Desktop and Start Menu shortcuts
 
-## For End Users
-
-1. Download `StockSentimentSetup.exe`
-2. Run the installer (requires administrator privileges)
-3. Follow the installation wizard
-4. Enter your Reddit API credentials when prompted
-   - You can get these from https://www.reddit.com/prefs/apps
-5. Launch the application from the desktop shortcut or Start Menu
-
 ### System Requirements
 
 - Windows 7 SP1 or later
 - Internet connection (for initial setup)
 - 500MB free disk space
 - Administrator privileges (for installation only)
-
-## For Developers
 
 ### Prerequisites
 
@@ -82,16 +71,6 @@ The generated `StockSentimentSetup.exe` is a standalone installer that can be di
 Users don't need to manually install Python or any dependencies - the installer handles everything automatically.
 
 ## Troubleshooting
-
-### For End Users
-
-If you encounter issues during installation:
-1. Ensure you have administrator privileges
-2. Check your internet connection
-3. Temporarily disable antivirus software
-4. Run the installer with `/LOG="install.log"` for detailed logs
-
-### For Developers
 
 Common build issues:
 1. PyInstaller errors:
