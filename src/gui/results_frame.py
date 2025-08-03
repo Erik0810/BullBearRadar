@@ -12,6 +12,17 @@ class ResultsFrame(tk.Frame):
         
     def _create_widgets(self):
         """Create and setup the results display widgets."""
+        # Create header label
+        self.header_label = tk.Label(
+            self.container,
+            text="Today's Top Sentiment from r/stocks",
+            font=("Helvetica", 16, "bold"),
+            bg="#040F16",
+            fg="#FBFBFF",
+            pady=15
+        )
+        self.header_label.pack(fill=tk.X, padx=20, pady=(10,20))
+        
         # Create container frames for bulls and bears
         self.bull_frame = tk.LabelFrame(
             self.container,
@@ -42,6 +53,7 @@ class ResultsFrame(tk.Frame):
         # Create labels for stocks (initially empty)
         self.bull_labels = []
         self.bear_labels = []
+        self._stock_click_callback = None
         
         for i in range(3):
             # Bullish labels
@@ -51,9 +63,12 @@ class ResultsFrame(tk.Frame):
                 font=("Helvetica", 12),
                 anchor="w",
                 bg="#040F16",
-                fg="#55A76A"  # Bullish green
+                fg="#55A76A",  # Bullish green
+                cursor="hand2"  # Change cursor to hand when hovering
             )
             label.pack(pady=5, fill=tk.X)
+            # Bind click event
+            label.bind('<Button-1>', lambda e, i=i: self._on_stock_click(e, True, i))
             self.bull_labels.append(label)
             
             # Bearish labels
@@ -63,9 +78,12 @@ class ResultsFrame(tk.Frame):
                 font=("Helvetica", 12),
                 anchor="w",
                 bg="#040F16",
-                fg="#E63B2E"  # Bearish red
+                fg="#E63B2E",  # Bearish red
+                cursor="hand2"  # Change cursor to hand when hovering
             )
             label.pack(pady=5, fill=tk.X)
+            # Bind click event
+            label.bind('<Button-1>', lambda e, i=i: self._on_stock_click(e, False, i))
             self.bear_labels.append(label)
             
         # Create Analyze Again button
@@ -104,6 +122,20 @@ class ResultsFrame(tk.Frame):
         """Set the callback function for Analyze Again button."""
         print(f"Setting analyze callback: {callback}")  # Debug print
         self._on_analyze_click_callback = callback
+        
+    def set_stock_click_callback(self, callback):
+        """Set the callback function for when a stock is clicked."""
+        self._stock_click_callback = callback
+        
+    def _on_stock_click(self, event, is_bullish: bool, index: int):
+        """Handle click events on stock labels."""
+        if self._stock_click_callback:
+            # Get the ticker from the label text
+            label_text = event.widget.cget("text")
+            if label_text and label_text != f"{index+1}. -":
+                # Extract ticker from format "1. TICKER"
+                ticker = label_text.split(". ")[1]
+                self._stock_click_callback(ticker)
         # Also update the button's command directly
         self.analyze_button.configure(command=lambda: self._on_analyze_click())
         
