@@ -1,4 +1,4 @@
-# Stock Sentiment Analyzer
+# BullBearRadar
 
 BullBearRadar is a desktop application that automatically scrapes Reddit's r/stocks for trending discussions, analyzes stock mentions at the sentence level for sentiment, and highlights the most bullish and bearish tickers each day. The setup wizard makes installation simple, so anyone can explore daily market sentiment without coding.
 
@@ -19,6 +19,11 @@ BullBearRadar is a desktop application that automatically scrapes Reddit's r/sto
 4. Enter your Reddit API credentials when prompted
    - You can get these from https://www.reddit.com/prefs/apps
 5. Launch the application from the desktop shortcut or Start Menu
+
+## Application screenshots
+
+![Results Screenshot](static/results.png)
+![Stock Details Screenshot](static/stock_details.png)
 
 ## Troubleshooting
 
