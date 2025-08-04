@@ -11,7 +11,7 @@ from .stock_details_frame import StockDetailsFrame
 class StockSentimentApp:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.title("Stock Sentiment Analyzer")
+        self.root.title("BullBearRadar")
         self.root.geometry("800x600")  # Increased size for better display
         self.root.resizable(False, False)
         self.root.configure(bg="#040F16")  # Set dark navy background
