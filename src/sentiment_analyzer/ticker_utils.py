@@ -18,13 +18,15 @@ class TickerExtractor:
         self.common_words = {
             # Common English words
             'I', 'A', 'THE', 'IN', 'ON', 'AT', 'TO', 'FOR', 'AND', 'OR',
-            'BUT', 'SO', 'PM', 'AM', 'CEO', 'CFO', 'CTO', 'USA', 'UK',
+            'BUT', 'SO', 'PM', 'AM', 'CEO', 'CFO', 'CTO', 'USA', 'UK','TEAM',
+            'TALK', 'NEW','LOT','EDIT',
             # Financial/Market Terms
             'IPO', 'ETF', 'MACD', 'RSI', 'EPS', 'P2P', 'ROI', 'ROE', 'ROA',
             'EBIT', 'CAGR', 'WACC', 'GAAP', 'NYSE', 'DJIA', 'NASDAQ', 'DOW',
             'REIT', 'DRIP', 'FIFO', 'LIFO', 'FDIC', 'RICO', 'FANG', 'SPAC',
             # Technical Terms
-            'API', 'AI', 'ML', 'CPU', 'GPU', 'RAM', 'SSD', 'HDD',
+            'API', 'AI', 'ML', 'CPU', 'GPU', 'RAM', 'SSD', 'HDD','PC','APP',
+            'WWW',
             # Units and Others
             'USD', 'EUR', 'GBP', 'YTD', 'TTM', 'QOQ', 'YOY', 'FY',
             'Q1', 'Q2', 'Q3', 'Q4', 'FED', 'SEC', 'IMF', 'GDP'
